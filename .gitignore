@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+env/
+venv/
+.venv/
+.Python
+*.sqlite3
+
+# Virtual envs and editor
+.vscode/
+.idea/
+
+# Chroma / vector db / Large files
+chroma_db/
+data/*.bin
+data/*.npy
+
+# Secrets
+.env

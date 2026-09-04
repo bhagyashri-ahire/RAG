@@ -1,0 +1,23 @@
+# ── Phase 1: PDF & text ingestion ─────────────────────────────────────────────
+pypdf==4.3.1          # Pure-Python PDF reader; we use it to extract text page-by-page
+                      # Alternative: pdfplumber (better for tables), but heavier
+
+# ── Phase 2: Chunking & embeddings ────────────────────────────────────────────
+sentence-transformers==3.0.1   # Loads all-MiniLM-L6-v2 and turns text → 384-dim vectors
+                               # Wraps HuggingFace Transformers; we'll call .encode() directly
+# tiktoken removed: no pre-built wheel for Python 3.14 (requires Rust compiler).
+# Token counting uses transformers.AutoTokenizer instead — already a dependency above.
+
+# ── Phase 3: Vector store ─────────────────────────────────────────────────────
+chromadb==0.5.5       # Local, embedded vector DB — stores chunk text + embeddings on disk
+                      # No server needed; runs entirely in-process
+
+# ── Phase 4–6: LLM API + grounding check ──────────────────────────────────────
+anthropic==0.31.0     # Official Claude SDK; we call claude-3-haiku for both generation
+                      # and the grounding checker (cheap, fast)
+
+# ── Phase 7: UI ───────────────────────────────────────────────────────────────
+streamlit==1.37.0     # Turns a Python script into a web UI with almost no boilerplate
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+python-dotenv==1.0.1  # Loads ANTHROPIC_API_KEY from a .env file so we don't hardcode secrets
